@@ -1,12 +1,15 @@
+# Latest Amazon Linux 2023 AMI ID (read from SSM Parameter Store)
 data "aws_ssm_parameter" "amazon_linux" {
     name="/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
+# SSH private key for the server
 resource "tls_private_key" "main" {
   algorithm = "ED25519"
 }
 
 
+# EC2 key pair from the generated public key
 resource "aws_key_pair" "main" {
   key_name   = "${var.project_name}-server-key"
   public_key = tls_private_key.main.public_key_openssh
@@ -17,18 +20,21 @@ resource "aws_key_pair" "main" {
   }
 }
 
+# Local file holding the SSH private key
 resource "local_sensitive_file" "private_key" {
     content = tls_private_key.main.private_key_openssh
     filename = pathexpand(var.key_path)
     file_permission = "0400"
 }
 
+# Security group for the server
 resource "aws_security_group" "main" {
   name        = "${var.project_name}-sg"
   description = "Security group for ${var.project_name} EC2 instance"
   vpc_id      = var.vpc_id
 }
 
+# Inbound rule allowing SSH (port 22)
 resource "aws_vpc_security_group_ingress_rule" "main_ssh" {
     security_group_id  = aws_security_group.main.id
 
@@ -38,6 +44,7 @@ resource "aws_vpc_security_group_ingress_rule" "main_ssh" {
     cidr_ipv4 = var.ssh_cidr
 }
 
+# Inbound rule allowing HTTP (port 80)
 resource "aws_vpc_security_group_ingress_rule" "main_http" {
     security_group_id  = aws_security_group.main.id
 
@@ -47,6 +54,15 @@ resource "aws_vpc_security_group_ingress_rule" "main_http" {
     cidr_ipv4 = var.http_cidr
 }
 
+# Outbound rule allowing all traffic
+resource "aws_vpc_security_group_egress_rule" "main" {
+    security_group_id  = aws_security_group.main.id
+
+    ip_protocol = "-1"
+    cidr_ipv4 = "0.0.0.0/0"
+}
+
+# EC2 instance
 resource "aws_instance" "main" {
   ami = data.aws_ssm_parameter.amazon_linux.value
   instance_type = var.instance_type

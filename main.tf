@@ -1,3 +1,4 @@
+# Network: VPC, subnet, internet gateway and routing
 module "network" {
   source = "./modules/network"
 
@@ -6,6 +7,7 @@ module "network" {
   environment  = var.environment
 }
 
+# Server: EC2 instance with its key pair and security group
 module "server" {
   source = "./modules/server"
 
