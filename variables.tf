@@ -16,6 +16,16 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
+variable "ssh_cidr" {
+  description = "The CIDR block to allow SSH access from"
+  type        = string
+
+  validation {
+    condition     = can(cidrhost(var.ssh_cidr, 0))
+    error_message = "Invalid CIDR block for SSH access"
+  }
+}
+
 variable "environment" {
   description = "The environment to deploy resources"
   type        = string
