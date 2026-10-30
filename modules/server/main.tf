@@ -18,8 +18,8 @@ resource "aws_key_pair" "main" {
 }
 
 resource "local_sensitive_file" "private_key" {
-    content = tls_private_key.main.private_key_pem
-    filename = "${var.key_path}"
+    content = tls_private_key.main.private_key_openssh
+    filename = pathexpand(var.key_path)
     file_permission = "0400"
 }
 

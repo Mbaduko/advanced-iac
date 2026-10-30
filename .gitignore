@@ -4,4 +4,6 @@
 *.tfstate.*
 *.tfvars
 *.tfvars.json
-backend.tf
+backend.hcl
+*.pem
+/~/
