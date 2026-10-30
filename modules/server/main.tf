@@ -53,6 +53,7 @@ resource "aws_instance" "main" {
   subnet_id = var.subnet_id
   key_name = aws_key_pair.main.key_name
   vpc_security_group_ids = [aws_security_group.main.id]
+  associate_public_ip_address = true
 
   tags = {
     Name        = "${var.project_name}-ec2"

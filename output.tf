@@ -1,7 +1,7 @@
 output "network" {
-    value = module.network
+  value = module.network
 }
 
 output "server" {
-    value = module.server
+  value = module.server
 }
