@@ -28,7 +28,7 @@ resource "local_file" "server_ip" {
 resource "terraform_data" "server_config" {
   provisioner "local-exec" {
     working_dir = "./ansible"
-    command     = "ansible-playbook playbook.yml -i ./inventory/inventory.ini"
+    command     = "ansible-playbook site.yml -i ./inventory/inventory.ini"
   }
   depends_on = [local_file.server_ip]
 }
