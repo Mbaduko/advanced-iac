@@ -16,3 +16,11 @@ module "server" {
   ssh_cidr     = var.ssh_cidr
   project_name = var.project_name
 }
+
+resource "local_file" "server_ip" {
+  filename = "./ansible/inventory/inventory.ini"
+  content  = <<-EOT
+  [servers]
+    server1 ansible_host="${module.server.server_public_ip}" ansible_user="${module.server.ssh_user}" ansible_ssh_private_key_file="${module.server.server_key_path}"
+  EOT
+}

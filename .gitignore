@@ -7,3 +7,5 @@
 backend.hcl
 *.pem
 /~/
+
+/ansible/inventory/inventory.ini

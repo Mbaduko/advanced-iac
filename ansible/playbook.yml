@@ -1,0 +1,59 @@
+- name: Configure Http server(Nginx)
+  vars:
+    site_name: "dom04"
+    server_link: "{{ ansible_host}}"
+  hosts: servers
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Enable and start Nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create a site root directory
+      ansible.builtin.file:
+        path: "/var/www/{{site_name}}"
+        state: directory
+        owner: nginx
+        group: nginx
+        mode: '0755'
+
+    - name: Create index.html
+      ansible.builtin.copy:
+        src: templates/index.html
+        dest: "/var/www/{{site_name}}/index.html"
+        owner: nginx
+        group: nginx
+        mode: '0644'
+
+    # - name: Create a site configuration directory
+    #   ansible.builtin.file:
+    #     path: "/etc/nginx/conf.d"
+    #     state: directory
+    #     owner: nginx
+    #     group: nginx
+    #     mode: '0755'
+
+    - name: create a site configuration file
+      ansible.builtin.template:
+        src: templates/nginx.conf.j2
+        dest: "/etc/nginx/conf.d/{{ site_name }}.conf"
+        owner: nginx
+        group: nginx
+        mode: '0644'
+      notify: Trigger Nginx reload
+
+
+
+  handlers:
+    - name: Trigger Nginx reload
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+       
+    
