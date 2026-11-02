@@ -1,0 +1,499 @@
+Command: terraform destroy -var="ssh_cidr=<my-ip>/32" -auto-approve
+Date:    2026-11-02T12:48:12+02:00
+
+module.server.tls_private_key.main: Refreshing state... [id=07b16779b9c1cc8c4e3a2245c63fe87aecbeb080]
+module.server.local_sensitive_file.private_key: Refreshing state... [id=e101d99294d8205f722688535b93f9668eb59a7f]
+module.server.data.aws_ssm_parameter.amazon_linux: Reading...
+module.server.aws_key_pair.main: Refreshing state... [id=Dom04-server-key]
+module.network.aws_vpc.main: Refreshing state... [id=vpc-04eb98db7ab9fcccd]
+module.server.data.aws_ssm_parameter.amazon_linux: Read complete after 1s [id=/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64]
+module.network.aws_internet_gateway.main: Refreshing state... [id=igw-0a817d784443d545d]
+module.network.aws_subnet.main: Refreshing state... [id=subnet-09a145f4ca7c354de]
+module.server.aws_security_group.main: Refreshing state... [id=sg-0e7ede6689a279c0a]
+module.network.aws_route_table.main: Refreshing state... [id=rtb-0e01779ce9795f85c]
+module.network.aws_route_table_association.main: Refreshing state... [id=rtbassoc-016cba941373fa61b]
+module.server.aws_vpc_security_group_egress_rule.main: Refreshing state... [id=sgr-02cde0b3c6da512d8]
+module.server.aws_vpc_security_group_ingress_rule.main_http: Refreshing state... [id=sgr-0210269cb68d19f60]
+module.server.aws_vpc_security_group_ingress_rule.main_ssh: Refreshing state... [id=sgr-02e69cc4106275de0]
+module.server.aws_instance.main: Refreshing state... [id=i-04aa8db1bf420b270]
+local_file.server_ip: Refreshing state... [id=e5ac73786c11a6118dc265b43892c4f19c6749d7]
+terraform_data.server_config: Refreshing state... [id=df4707c8-206c-8188-9dc5-141d33c9f0a3]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # local_file.server_ip will be destroyed
+  - resource "local_file" "server_ip" {
+      - content              = <<-EOT
+            [servers]
+              server1 ansible_host="79.125.78.107" ansible_user="ec2-user" ansible_ssh_private_key_file="/home/baduka/.ssh/Dom04-server_key.pem"
+        EOT -> null
+      - content_base64sha256 = "1QJsnleG3QjGlLm+jOjyZYJ2sZ3Kc3oQqhF3+f/N7sk=" -> null
+      - content_base64sha512 = "F2U6OQBCZMbTUgurm2mYXgp6mZg1LZxLYdrTWJ+Q0eWUZjOZRcI1YBk93b/IYaxOHJV60Jq7D6TSQ4NvT8H+Sg==" -> null
+      - content_md5          = "23c21638ca2af2816113bea04450c602" -> null
+      - content_sha1         = "e5ac73786c11a6118dc265b43892c4f19c6749d7" -> null
+      - content_sha256       = "d5026c9e5786dd08c694b9be8ce8f2658276b19dca737a10aa1177f9ffcdeec9" -> null
+      - content_sha512       = "17653a39004264c6d3520bab9b69985e0a7a9998352d9c4b61dad3589f90d1e59466339945c23560193dddbfc861ac4e1c957ad09abb0fa4d243836f4fc1fe4a" -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "./ansible/inventory/inventory.ini" -> null
+      - id                   = "e5ac73786c11a6118dc265b43892c4f19c6749d7" -> null
+    }
+
+  # terraform_data.server_config will be destroyed
+  - resource "terraform_data" "server_config" {
+      - id = "df4707c8-206c-8188-9dc5-141d33c9f0a3" -> null
+    }
+
+  # module.network.aws_internet_gateway.main will be destroyed
+  - resource "aws_internet_gateway" "main" {
+      - arn      = "arn:aws:ec2:eu-west-1:288761743924:internet-gateway/igw-0a817d784443d545d" -> null
+      - id       = "igw-0a817d784443d545d" -> null
+      - owner_id = "288761743924" -> null
+      - region   = "eu-west-1" -> null
+      - tags     = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-igw"
+        } -> null
+      - tags_all = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-igw"
+          - "Project"     = "Dom04"
+        } -> null
+      - vpc_id   = "vpc-04eb98db7ab9fcccd" -> null
+    }
+
+  # module.network.aws_route_table.main will be destroyed
+  - resource "aws_route_table" "main" {
+      - arn              = "arn:aws:ec2:eu-west-1:288761743924:route-table/rtb-0e01779ce9795f85c" -> null
+      - id               = "rtb-0e01779ce9795f85c" -> null
+      - owner_id         = "288761743924" -> null
+      - propagating_vgws = [] -> null
+      - region           = "eu-west-1" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-0a817d784443d545d"
+                # (11 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-rt"
+        } -> null
+      - tags_all         = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-rt"
+          - "Project"     = "Dom04"
+        } -> null
+      - vpc_id           = "vpc-04eb98db7ab9fcccd" -> null
+    }
+
+  # module.network.aws_route_table_association.main will be destroyed
+  - resource "aws_route_table_association" "main" {
+      - id             = "rtbassoc-016cba941373fa61b" -> null
+      - region         = "eu-west-1" -> null
+      - route_table_id = "rtb-0e01779ce9795f85c" -> null
+      - subnet_id      = "subnet-09a145f4ca7c354de" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.network.aws_subnet.main will be destroyed
+  - resource "aws_subnet" "main" {
+      - arn                                            = "arn:aws:ec2:eu-west-1:288761743924:subnet/subnet-09a145f4ca7c354de" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-west-1a" -> null
+      - availability_zone_id                           = "euw1-az1" -> null
+      - cidr_block                                     = "10.0.0.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-09a145f4ca7c354de" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "288761743924" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "eu-west-1" -> null
+      - tags                                           = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-subnet"
+        } -> null
+      - tags_all                                       = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-subnet"
+          - "Project"     = "Dom04"
+        } -> null
+      - vpc_id                                         = "vpc-04eb98db7ab9fcccd" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.network.aws_vpc.main will be destroyed
+  - resource "aws_vpc" "main" {
+      - arn                                  = "arn:aws:ec2:eu-west-1:288761743924:vpc/vpc-04eb98db7ab9fcccd" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.0.0.0/16" -> null
+      - default_network_acl_id               = "acl-0f688e68bac5fd864" -> null
+      - default_route_table_id               = "rtb-04ccdeeda1e9ec922" -> null
+      - default_security_group_id            = "sg-0737c6de6bed0d6f3" -> null
+      - dhcp_options_id                      = "dopt-0758d3d5400da0415" -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-04eb98db7ab9fcccd" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-04ccdeeda1e9ec922" -> null
+      - owner_id                             = "288761743924" -> null
+      - region                               = "eu-west-1" -> null
+      - tags                                 = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-vpc"
+        } -> null
+      - tags_all                             = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-vpc"
+          - "Project"     = "Dom04"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.server.aws_instance.main will be destroyed
+  - resource "aws_instance" "main" {
+      - ami                                  = (sensitive value) -> null
+      - arn                                  = "arn:aws:ec2:eu-west-1:288761743924:instance/i-04aa8db1bf420b270" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "eu-west-1a" -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-04aa8db1bf420b270" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "Dom04-server-key" -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-0ef874ea5b096d490" -> null
+      - private_dns                          = "ip-10-0-0-120.eu-west-1.compute.internal" -> null
+      - private_ip                           = "10.0.0.120" -> null
+      - public_dns                           = "ec2-79-125-78-107.eu-west-1.compute.amazonaws.com" -> null
+      - public_ip                            = "79.125.78.107" -> null
+      - region                               = "eu-west-1" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-09a145f4ca7c354de" -> null
+      - tags                                 = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-ec2"
+        } -> null
+      - tags_all                             = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-ec2"
+          - "Project"     = "Dom04"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-0e7ede6689a279c0a",
+        ] -> null
+        # (7 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count       = 1 -> null
+          - threads_per_core = 1 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 2 -> null
+          - http_tokens                 = "required" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/xvda" -> null
+          - encrypted             = false -> null
+          - iops                  = 3000 -> null
+          - tags                  = {
+              - "Environment" = "dev"
+              - "ManagedBy"   = "Terraform"
+              - "Project"     = "Dom04"
+            } -> null
+          - tags_all              = {
+              - "Environment" = "dev"
+              - "ManagedBy"   = "Terraform"
+              - "Project"     = "Dom04"
+            } -> null
+          - throughput            = 125 -> null
+          - volume_id             = "vol-0ce83c310e964d412" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp3" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.server.aws_key_pair.main will be destroyed
+  - resource "aws_key_pair" "main" {
+      - arn             = "arn:aws:ec2:eu-west-1:288761743924:key-pair/Dom04-server-key" -> null
+      - fingerprint     = "ouO8sDS58wdL6Isawrp/+Mx4zZIjI8EV50rSFHALJec=" -> null
+      - id              = "Dom04-server-key" -> null
+      - key_name        = "Dom04-server-key" -> null
+      - key_pair_id     = "key-0b4ebf41d06aeb21e" -> null
+      - key_type        = "ed25519" -> null
+      - public_key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgtTQnqeT5yr7/KK5M/hPzD/93el25LpLCs/wlVOSYn" -> null
+      - region          = "eu-west-1" -> null
+      - tags            = {
+          - "Environment" = "dev"
+          - "Name"        = "Dom04-keypair"
+        } -> null
+      - tags_all        = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Name"        = "Dom04-keypair"
+          - "Project"     = "Dom04"
+        } -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.server.aws_security_group.main will be destroyed
+  - resource "aws_security_group" "main" {
+      - arn                    = "arn:aws:ec2:eu-west-1:288761743924:security-group/sg-0e7ede6689a279c0a" -> null
+      - description            = "Security group for Dom04 EC2 instance" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-0e7ede6689a279c0a" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 80
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 80
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - cidr_blocks      = [
+                  - "<my-ip>/32",
+                ]
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - name                   = "Dom04-sg" -> null
+      - owner_id               = "288761743924" -> null
+      - region                 = "eu-west-1" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Project"     = "Dom04"
+        } -> null
+      - vpc_id                 = "vpc-04eb98db7ab9fcccd" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.server.aws_vpc_security_group_egress_rule.main will be destroyed
+  - resource "aws_vpc_security_group_egress_rule" "main" {
+      - arn                    = "arn:aws:ec2:eu-west-1:288761743924:security-group-rule/sgr-02cde0b3c6da512d8" -> null
+      - cidr_ipv4              = "0.0.0.0/0" -> null
+      - id                     = "sgr-02cde0b3c6da512d8" -> null
+      - ip_protocol            = "-1" -> null
+      - region                 = "eu-west-1" -> null
+      - security_group_id      = "sg-0e7ede6689a279c0a" -> null
+      - security_group_rule_id = "sgr-02cde0b3c6da512d8" -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Project"     = "Dom04"
+        } -> null
+    }
+
+  # module.server.aws_vpc_security_group_ingress_rule.main_http will be destroyed
+  - resource "aws_vpc_security_group_ingress_rule" "main_http" {
+      - arn                    = "arn:aws:ec2:eu-west-1:288761743924:security-group-rule/sgr-0210269cb68d19f60" -> null
+      - cidr_ipv4              = "0.0.0.0/0" -> null
+      - from_port              = 80 -> null
+      - id                     = "sgr-0210269cb68d19f60" -> null
+      - ip_protocol            = "tcp" -> null
+      - region                 = "eu-west-1" -> null
+      - security_group_id      = "sg-0e7ede6689a279c0a" -> null
+      - security_group_rule_id = "sgr-0210269cb68d19f60" -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Project"     = "Dom04"
+        } -> null
+      - to_port                = 80 -> null
+    }
+
+  # module.server.aws_vpc_security_group_ingress_rule.main_ssh will be destroyed
+  - resource "aws_vpc_security_group_ingress_rule" "main_ssh" {
+      - arn                    = "arn:aws:ec2:eu-west-1:288761743924:security-group-rule/sgr-02e69cc4106275de0" -> null
+      - cidr_ipv4              = "<my-ip>/32" -> null
+      - from_port              = 22 -> null
+      - id                     = "sgr-02e69cc4106275de0" -> null
+      - ip_protocol            = "tcp" -> null
+      - region                 = "eu-west-1" -> null
+      - security_group_id      = "sg-0e7ede6689a279c0a" -> null
+      - security_group_rule_id = "sgr-02e69cc4106275de0" -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "Terraform"
+          - "Project"     = "Dom04"
+        } -> null
+      - to_port                = 22 -> null
+    }
+
+  # module.server.local_sensitive_file.private_key will be destroyed
+  - resource "local_sensitive_file" "private_key" {
+      - content              = (sensitive value) -> null
+      - content_base64sha256 = "Mz7VNbYcXvZeCXt83MApuk6GbXdIs66RSyGD0YOWMRg=" -> null
+      - content_base64sha512 = "aTXnrEkUJfAyiR1YdpwWqAXO4qcE2e/PdNdJelA8Z2geY1qBggQ47tqQvl1ZrUsejOzizI/F37e1YPsvea9zaw==" -> null
+      - content_md5          = "49fe5e69f5b8b2a5f30626ede8151b03" -> null
+      - content_sha1         = "e101d99294d8205f722688535b93f9668eb59a7f" -> null
+      - content_sha256       = "333ed535b61c5ef65e097b7cdcc029ba4e866d7748b3ae914b2183d183963118" -> null
+      - content_sha512       = "6935e7ac491425f032891d58769c16a805cee2a704d9efcf74d7497a503c67681e635a81820438eeda90be5d59ad4b1e8cece2cc8fc5dfb7b560fb2f79af736b" -> null
+      - directory_permission = "0700" -> null
+      - file_permission      = "0400" -> null
+      - filename             = "/home/baduka/.ssh/Dom04-server_key.pem" -> null
+      - id                   = "e101d99294d8205f722688535b93f9668eb59a7f" -> null
+    }
+
+  # module.server.tls_private_key.main will be destroyed
+  - resource "tls_private_key" "main" {
+      - algorithm                     = "ED25519" -> null
+      - ecdsa_curve                   = "P224" -> null
+      - id                            = "07b16779b9c1cc8c4e3a2245c63fe87aecbeb080" -> null
+      - private_key_openssh           = (sensitive value) -> null
+      - private_key_pem               = (sensitive value) -> null
+      - private_key_pem_pkcs8         = (sensitive value) -> null
+      - public_key_fingerprint_md5    = "ad:36:3d:ae:9f:4e:76:c6:b1:ab:59:f0:43:96:b3:5c" -> null
+      - public_key_fingerprint_sha256 = "SHA256:ouO8sDS58wdL6Isawrp/+Mx4zZIjI8EV50rSFHALJec" -> null
+      - public_key_openssh            = <<-EOT
+            ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAgtTQnqeT5yr7/KK5M/hPzD/93el25LpLCs/wlVOSYn
+        EOT -> null
+      - public_key_pem                = <<-EOT
+            -----BEGIN PUBLIC KEY-----
+            MCowBQYDK2VwAyEACC1NCep5PnKvv8orkz+E/MP/3d6XbkuksKz/CVU5Jic=
+            -----END PUBLIC KEY-----
+        EOT -> null
+      - rsa_bits                      = 2048 -> null
+    }
+
+Plan: 0 to add, 0 to change, 15 to destroy.
+
+Changes to Outputs:
+  - network = {
+      - main_internet_gateway_id = "igw-0a817d784443d545d"
+      - main_route_table_id      = "rtb-0e01779ce9795f85c"
+      - main_subnet_id           = "subnet-09a145f4ca7c354de"
+      - main_vpc_id              = "vpc-04eb98db7ab9fcccd"
+    } -> null
+  - server  = {
+      - server_dns_name  = "ec2-79-125-78-107.eu-west-1.compute.amazonaws.com"
+      - server_key_name  = "Dom04-server-key"
+      - server_key_path  = "/home/baduka/.ssh/Dom04-server_key.pem"
+      - server_public_ip = "79.125.78.107"
+      - ssh_user         = "ec2-user"
+    } -> null
+terraform_data.server_config: Destroying... [id=df4707c8-206c-8188-9dc5-141d33c9f0a3]
+terraform_data.server_config: Destruction complete after 0s
+local_file.server_ip: Destroying... [id=e5ac73786c11a6118dc265b43892c4f19c6749d7]
+local_file.server_ip: Destruction complete after 0s
+module.server.local_sensitive_file.private_key: Destroying... [id=e101d99294d8205f722688535b93f9668eb59a7f]
+module.server.local_sensitive_file.private_key: Destruction complete after 0s
+module.network.aws_route_table_association.main: Destroying... [id=rtbassoc-016cba941373fa61b]
+module.server.aws_vpc_security_group_ingress_rule.main_ssh: Destroying... [id=sgr-02e69cc4106275de0]
+module.server.aws_vpc_security_group_egress_rule.main: Destroying... [id=sgr-02cde0b3c6da512d8]
+module.server.aws_vpc_security_group_ingress_rule.main_http: Destroying... [id=sgr-0210269cb68d19f60]
+module.server.aws_instance.main: Destroying... [id=i-04aa8db1bf420b270]
+module.server.aws_vpc_security_group_ingress_rule.main_http: Destruction complete after 2s
+module.server.aws_vpc_security_group_egress_rule.main: Destruction complete after 2s
+module.server.aws_vpc_security_group_ingress_rule.main_ssh: Destruction complete after 2s
+module.network.aws_route_table_association.main: Destruction complete after 2s
+module.network.aws_route_table.main: Destroying... [id=rtb-0e01779ce9795f85c]
+module.network.aws_route_table.main: Destruction complete after 1s
+module.network.aws_internet_gateway.main: Destroying... [id=igw-0a817d784443d545d]
+module.server.aws_instance.main: Still destroying... [id=i-04aa8db1bf420b270, 00m10s elapsed]
+module.network.aws_internet_gateway.main: Still destroying... [id=igw-0a817d784443d545d, 00m10s elapsed]
+module.server.aws_instance.main: Still destroying... [id=i-04aa8db1bf420b270, 00m20s elapsed]
+module.network.aws_internet_gateway.main: Destruction complete after 20s
+module.server.aws_instance.main: Destruction complete after 27s
+module.server.aws_key_pair.main: Destroying... [id=Dom04-server-key]
+module.network.aws_subnet.main: Destroying... [id=subnet-09a145f4ca7c354de]
+module.server.aws_security_group.main: Destroying... [id=sg-0e7ede6689a279c0a]
+module.server.aws_key_pair.main: Destruction complete after 0s
+module.server.tls_private_key.main: Destroying... [id=07b16779b9c1cc8c4e3a2245c63fe87aecbeb080]
+module.server.tls_private_key.main: Destruction complete after 0s
+module.server.aws_security_group.main: Destruction complete after 1s
+module.network.aws_subnet.main: Destruction complete after 1s
+module.network.aws_vpc.main: Destroying... [id=vpc-04eb98db7ab9fcccd]
+module.network.aws_vpc.main: Destruction complete after 2s
+Releasing state lock. This may take a few moments...
+
+Destroy complete! Resources: 15 destroyed.
