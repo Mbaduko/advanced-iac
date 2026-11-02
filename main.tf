@@ -24,3 +24,11 @@ resource "local_file" "server_ip" {
     server1 ansible_host="${module.server.server_public_ip}" ansible_user="${module.server.ssh_user}" ansible_ssh_private_key_file="${module.server.server_key_path}"
   EOT
 }
+
+resource "terraform_data" "server_config" {
+  provisioner "local-exec" {
+    working_dir = "./ansible"
+    command     = "ansible-playbook playbook.yml -i ./inventory/inventory.ini"
+  }
+  depends_on = [local_file.server_ip]
+}
